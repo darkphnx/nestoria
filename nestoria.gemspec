@@ -24,7 +24,8 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
-    "lib/nestoria/api.rb"
+    "lib/nestoria/api.rb",
+    "nestoria.gemspec"
   ]
   s.homepage = %q{http://github.com/darkphnx/nestoria}
   s.licenses = ["MIT"]
