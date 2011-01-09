@@ -12,11 +12,11 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "Ruby Nestoria API Library"
+  gem.name = "nestoria"
   gem.homepage = "http://github.com/darkphnx/nestoria"
   gem.license = "MIT"
   gem.summary = %Q{A simple library to interface with Nestoria's API}
-  gem.description = %Q{A simple library to interface with Nestoria's API}
+  gem.description = %Q{A simple library to interface with Nestoria's API, currently compatible with v1.19}
   gem.email = "dan.wentworth@gmail.com"
   gem.authors = ["Dan Wentworth"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
