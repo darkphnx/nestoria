@@ -22,7 +22,7 @@ module Nestoria
     
     # Valid search parameters - See http://www.nestoria.co.uk/help/api-search-listings for key/value details
     LOCATION_KEYS = [ :place_name, :south_west, :north_east, :centre_point, :radius ]
-    SEARCH_KEYS   = [ :guid, :listing_type, :property_type, :min_price, :max_price, 
+    SEARCH_KEYS   = [ :guid, :listing_type, :property_type, :price_min, :price_max,
       :bedroom_min, :bedroom_max, :room_min, :room_max, :bathroom_min, :bathroom_max, 
       :size_min, :size_max, :keywords, :keywords_exclude, :has_photo, :updated_min, 
       :number_of_results, :page, :sort ] + LOCATION_KEYS
