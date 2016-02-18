@@ -18,7 +18,7 @@ module Nestoria
 
   class Api
 
-    API_VERSION = 1.21
+    API_VERSION = 1.22
 
     # Valid search parameters - See http://www.nestoria.co.uk/help/api-search-listings for key/value details
     LOCATION_KEYS = [ :place_name, :south_west, :north_east, :centre_point, :radius ]
