@@ -82,7 +82,8 @@ module Nestoria
     private
 
     #Lightweight URL cacher class, caches requests to speed up the app
-    #Source by https://developer.yahoo.com/ruby/ruby-cache.html
+    #Basic Source by https://developer.yahoo.com/ruby/ruby-cache.html, 
+    #extended the class a bit
     class MemCache
         def initialize
             # we initialize an empty hash
