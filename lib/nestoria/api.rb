@@ -31,7 +31,8 @@ module Nestoria
 
     def initialize(country, use_cache=false, max_age=MAX_AGE)
       @country = country
-      @use_cache = use_cache unless max_age.to_f <= 0
+      #Check to see if we have a valid max_age, if not we will ignore caching
+      @use_cache = use_cache max_age.to_f <= 0 ? false : true
       @max_age = max_age.to_f
     end
 
