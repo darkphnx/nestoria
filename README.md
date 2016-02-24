@@ -57,6 +57,20 @@ There's also support for fetching the average house price information on an area
 
     Nestoria::Api.new(:uk).metadata :south_west => [50.965, -5.504], :north_east => [50.156, -5.136]
 
+Caching
+------
+
+If you want to cache your queries, so that you won't hit nestoria as often
+and at the same time speed up the process of getting respones, 
+you can enable caching by initializing the Api with additional parameters. 
+
+    Nestoria::Api.new(:uk, use_cache, max_age=5*60)
+    #e.g. Nestoria::Api.new(:uk, true)
+    #This will enable caching a response for 5 minutes 
+    # or
+    Nestoria::Api.new(:uk, true, 0.5)
+    #will enable caching for 0.5 seconds
+
 Contributing to Nestoria API Library
 ====================================
  
