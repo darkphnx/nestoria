@@ -26,9 +26,13 @@ module Nestoria
       :bedroom_min, :bedroom_max, :room_min, :room_max, :bathroom_min, :bathroom_max,
       :size_min, :size_max, :keywords, :keywords_exclude, :has_photo, :updated_min,
       :number_of_results, :page, :sort ] + LOCATION_KEYS
+    # How old our cached results can be
+    MAX_AGE = 5*60
 
-    def initialize(country)
+    def initialize(country, use_cache=false, max_age=MAX_AGE)
       @country = country
+      @use_cache = use_cache
+      @max_age = max_age
     end
 
     # Search nestoria property listings - See http://www.nestoria.co.uk/help/api-search-listings
@@ -76,6 +80,46 @@ module Nestoria
 
     private
 
+    #Lightweight URL cacher class, caches requests to speed up the app
+    #Source by https://developer.yahoo.com/ruby/ruby-cache.html
+    class MemCache
+        def initialize
+            # we initialize an empty hash
+            @cache = {}
+        end
+        def fetch(url, max_age=0)
+            # if the API URL exists as a key in cache, we just return it
+            # we also make sure the data is fresh
+            if @cache.has_key? url
+                return @cache[url][1] if Time.now-@cache[url][0]<max_age
+            end
+            puts "Cache miss, getting "+url
+            # if the URL does not exist in cache or the data is not fresh,
+            #  we fetch again and store in cache
+            @cache[url] = [Time.now, Net::HTTP.get_response(URI.parse(url)).body]
+            return @cache[url][1]
+        end
+        def invalidate(url=nil)
+            if(url)
+                @cache[url][0] = 0
+            else
+                @cache = {}
+            end
+        end
+    end
+
+    def fetch_url(url, max_age=@max_age)
+        if @use_cache then
+            @@fetcher ||= MemCache.new
+            res = @@fetcher.fetch(url, max_age)
+            data = JSON.parse(res)
+        else
+            res = Net::HTTP.get_response(URI.parse(url))
+            data = JSON.parse(res.body)
+        end
+        return data
+    end
+
     def base_url
       domains = {:au => "api.nestoria.com.au",
                  :br => "api.nestoria.com.br",
@@ -97,9 +141,7 @@ module Nestoria
     def request(action, params = {})
       url = "#{base_url}?version=#{API_VERSION}&action=#{action}&encoding=json&#{params.to_query}"
       puts url
-      res = Net::HTTP.get_response(URI.parse(url))
-      data = JSON.parse(res.body)
-
+      data = fetch_url(url)
       # Catch any errors returned from the API and raise an appropriate exception
       if action.to_s == "search"
         application_response_code = data["response"]["application_response_code"]
