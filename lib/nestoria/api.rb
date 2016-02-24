@@ -31,8 +31,8 @@ module Nestoria
 
     def initialize(country, use_cache=false, max_age=MAX_AGE)
       @country = country
-      @use_cache = use_cache
-      @max_age = max_age
+      @use_cache = use_cache unless max_age.to_f <= 0
+      @max_age = max_age.to_f
     end
 
     # Search nestoria property listings - See http://www.nestoria.co.uk/help/api-search-listings
